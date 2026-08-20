@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MindSpace — Make Space for Your Mind</title>
+  <meta name="description"
+    content="A private space to check in with yourself, reflect, and build healthier everyday habits." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.383.0/dist/umd/lucide.min.js"></script>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div id="grain-layer" class="grain fixed"></div>
+
+  <div id="onboarding" class="fixed inset-0 z-[100] flex items-center justify-center p-4"
+    style="background:rgba(21,43,33,.55); backdrop-filter:blur(6px);">
+    <div class="card max-w-lg w-full p-8 md:p-10 relative" style="background:var(--card);">
+      <div class="eyebrow mb-3">WELCOME</div>
+      <h2 class="serif text-3xl md:text-4xl mb-2">Welcome to <span class="serif-italic">MindSpace.</span></h2>
+      <p class="text-sm mb-6" style="color:var(--ink-soft);">What would you like to focus on today? This just helps us
+        shape your space — nothing is shared, and you can change it anytime.</p>
+      <div id="onboarding-options" class="grid grid-cols-1 gap-2.5 mb-7">
+        <button class="chip w-full justify-start !text-left !py-3 !px-4" data-focus="Understanding my feelings">
+          <i data-lucide="heart" class="w-4 h-4"></i> Understanding my feelings
+        </button>
+        <button class="chip w-full justify-start !text-left !py-3 !px-4" data-focus="Building better habits">
+          <i data-lucide="repeat" class="w-4 h-4"></i> Building better habits
+        </button>
+        <button class="chip w-full justify-start !text-left !py-3 !px-4" data-focus="Journaling">
+          <i data-lucide="book-open" class="w-4 h-4"></i> Journaling
+        </button>
+        <button class="chip w-full justify-start !text-left !py-3 !px-4" data-focus="Managing stress">
+          <i data-lucide="wind" class="w-4 h-4"></i> Managing stress
+        </button>
+        <button class="chip w-full justify-start !text-left !py-3 !px-4" data-focus="Just exploring">
+          <i data-lucide="compass" class="w-4 h-4"></i> Just exploring
+        </button>
+      </div>
+      <button id="onboarding-skip" class="btn-ghost text-xs">Skip for now →</button>
+    </div>
+  </div>
+  <header class="sticky top-0 z-50 sticky-nav border-b" style="border-color:var(--line);">
+    <div class="max-w-7xl mx-auto px-5 md:px-8 h-[72px] flex items-center justify-between">
+      <a href="#home" class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:var(--forest);">
+          <i data-lucide="leaf" class="w-4 h-4" style="color:var(--ivory);"></i>
+        </div>
+        <span class="serif text-lg tracking-tight">MS <span class="serif-italic">MindSpace</span></span>
+      </a>
+      <nav class="hidden lg:flex items-center gap-8">
+        <a href="#home" class="nav-link">Home</a>
+        <a href="#checkin" class="nav-link">Check-In</a>
+        <a href="#journal" class="nav-link">Journal</a>
+        <a href="#mood" class="nav-link">Mood</a>
+        <a href="#habits" class="nav-link">Habits</a>
+        <a href="#resources" class="nav-link">Resources</a>
+        <a href="#community" class="nav-link">Community</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <a href="#checkin" class="btn-primary hidden sm:inline-flex">Start Check-In <i data-lucide="arrow-right"
+            class="w-3.5 h-3.5"></i></a>
+        <button id="menu-toggle" class="lg:hidden w-10 h-10 flex items-center justify-center rounded-full border"
+          style="border-color:var(--line);">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden lg:hidden border-t px-5 py-4 flex flex-col gap-4"
+      style="border-color:var(--line); background:var(--ivory);">
+      <a href="#home" class="nav-link">Home</a>
+      <a href="#checkin" class="nav-link">Check-In</a>
+      <a href="#journal" class="nav-link">Journal</a>
+      <a href="#mood" class="nav-link">Mood</a>
+      <a href="#habits" class="nav-link">Habits</a>
+      <a href="#resources" class="nav-link">Resources</a>
+      <a href="#community" class="nav-link">Community</a>
+      <a href="#checkin" class="btn-primary justify-center mt-2">Start Check-In <i data-lucide="arrow-right"
+          class="w-3.5 h-3.5"></i></a>
+    </div>
+  </header>
+  <div class="page" data-page="home">
+
+    <section id="home" class="max-w-7xl mx-auto px-5 md:px-8 pt-10 md:pt-14">
+      <div class="fade-up relative rounded-[2rem] overflow-hidden" style="min-height:560px;">
+        <img src="https://images.unsplash.com/photo-1499209974431-9dddcece7f88?q=80&w=1800&auto=format&fit=crop"
+          alt="A person resting peacefully outdoors, calm and introspective"
+          class="absolute inset-0 w-full h-full object-cover" />
+        <div class="absolute inset-0"
+          style="background:linear-gradient(180deg, rgba(18,35,27,.15) 0%, rgba(15,28,22,.55) 100%);"></div>
+        <div class="relative z-10 h-full flex flex-col items-center justify-center text-center px-6 py-24 md:py-32">
+          <span class="eyebrow px-3 py-1.5 rounded-full mb-6"
+            style="background:rgba(246,242,233,.9); color:var(--forest);">MENTAL WELLNESS • DAILY REFLECTION</span>
+          <h1 class="serif text-white text-4xl sm:text-5xl md:text-6xl leading-[1.08] max-w-3xl">
+            Understand Your Mind.<br class="hidden sm:block">
+            Take Care of <span class="serif-italic">Yourself.</span>
+          </h1>
+          <p class="text-white/85 mt-6 max-w-lg text-[15px] leading-relaxed">A private space to check in with yourself,
+            reflect on your thoughts, and build healthier everyday habits.</p>
+          <div class="flex flex-wrap items-center justify-center gap-3 mt-9">
+            <a href="#checkin" class="btn-primary" style="background:var(--ivory); color:var(--forest);">Start Your
+              Check-In <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
+            <a href="#about" class="btn-secondary" style="border-color:rgba(255,255,255,.6); color:#fff;">Explore
+              MindSpace</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="max-w-7xl mx-auto px-5 md:px-8 py-24 md:py-32">
+      <div class="text-center max-w-2xl mx-auto fade-up">
+        <div class="eyebrow mb-3">ABOUT MINDSPACE</div>
+        <h2 class="serif text-3xl md:text-[2.6rem] leading-tight">Your Space to Feel, Reflect, <span
+            class="serif-italic">and Grow</span></h2>
+        <p class="mt-4 text-sm md:text-[15px]" style="color:var(--ink-soft);">We make everyday mental wellness
+          accessible
+          — a calm, private place to notice how you feel and take small, honest steps toward feeling better.</p>
+      </div>
+
+      <div class="mt-14 flex justify-center">
+        <div class="relative w-full max-w-2xl h-[340px] md:h-[400px]">
+          <img src="Wooden.jpg" alt="Quiet wooden dock over calm water"
+            class="absolute left-0 top-8 w-[38%] h-[70%] object-cover rounded-3xl shadow-xl -rotate-6 border-4"
+            style="border-color:var(--card);" />
+          <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=900&auto=format&fit=crop"
+            alt="Person sitting calmly amid soft natural light"
+            class="absolute left-1/2 -translate-x-1/2 top-0 w-[42%] h-full object-cover rounded-3xl shadow-2xl z-10 border-4"
+            style="border-color:var(--card);" />
+          <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?q=80&w=900&auto=format&fit=crop"
+            alt="Forest path bathed in warm light"
+            class="absolute right-0 top-10 w-[38%] h-[68%] object-cover rounded-3xl shadow-xl rotate-6 border-4"
+            style="border-color:var(--card);" />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-10 mt-16 md:mt-20 text-center max-w-4xl mx-auto">
+        <div class="fade-up">
+          <div class="serif text-4xl md:text-5xl" style="color:var(--forest);">93%</div>
+          <div class="mt-2 font-medium text-sm">Feel More Mentally <span class="serif-italic">Clear</span></div>
+          <p class="text-xs mt-2 leading-relaxed" style="color:var(--ink-soft);">Most people say daily writing helps
+            organize thoughts and reduce overwhelm.</p>
+        </div>
+        <div class="fade-up" style="transition-delay:.1s">
+          <div class="serif text-4xl md:text-5xl" style="color:var(--forest);">87%</div>
+          <div class="mt-2 font-medium text-sm">Feel More <span class="serif-italic">Connected</span></div>
+          <p class="text-xs mt-2 leading-relaxed" style="color:var(--ink-soft);">Guided prompts help people gain insight
+            into their emotions and needs.</p>
+        </div>
+        <div class="fade-up" style="transition-delay:.2s">
+          <div class="serif text-4xl md:text-5xl" style="color:var(--forest);">95%</div>
+          <div class="mt-2 font-medium text-sm">Build a Self-Care <span class="serif-italic">Routine</span></div>
+          <p class="text-xs mt-2 leading-relaxed" style="color:var(--ink-soft);">Small daily steps turn into steady,
+            sustainable habits over time.</p>
+        </div>
+      </div>
+      <p class="text-center text-[11px] mt-8" style="color:var(--ink-soft);">*Demo figures for illustration — MindSpace
+        is
+        a prototype and does not yet have a live user base.</p>
+    </section>
+
+  </div>
+  <div class="page" data-page="checkin">
+
+    <section id="checkin" class="max-w-7xl mx-auto px-5 md:px-8 py-24 md:py-32">
+      <div class="grid lg:grid-cols-[0.85fr_1.15fr] gap-14 items-start">
+        <div class="fade-up lg:sticky lg:top-28">
+          <div class="eyebrow mb-3">DAILY CHECK-IN</div>
+          <h2 class="serif text-3xl md:text-[2.5rem] leading-tight">How Are You <span
+              class="serif-italic">Feeling</span>
+            Today?</h2>
+          <p class="mt-4 text-sm leading-relaxed" style="color:var(--ink-soft);">A short, honest check-in with yourself
+            —
+            no diagnosis, no judgment. Just a moment of noticing.</p>
+          <div class="mt-8 flex items-center gap-3 text-xs" style="color:var(--ink-soft);">
+            <i data-lucide="shield-check" class="w-4 h-4" style="color:var(--forest);"></i> Private and only visible to
+            you.
+          </div>
+        </div>
+
+        <div class="card p-6 md:p-9" id="checkin-card">
+          <div id="ci-step-1">
+            <div class="text-xs font-medium mb-4" style="color:var(--ink-soft);">Step 1 of 4</div>
+            <h3 class="serif text-xl mb-5">How are you feeling right now?</h3>
+            <div class="grid grid-cols-5 gap-2 md:gap-3" id="mood-options">
+              <div class="mood-pill" data-mood="Very Low" data-emoji="🌧️">
+                <div class="text-2xl mb-1">🌧️</div>
+                <div class="text-[11px] font-medium">Very Low</div>
+              </div>
+              <div class="mood-pill" data-mood="Low" data-emoji="🌥️">
+                <div class="text-2xl mb-1">🌥️</div>
+                <div class="text-[11px] font-medium">Low</div>
+              </div>
+              <div class="mood-pill" data-mood="Okay" data-emoji="⛅">
+                <div class="text-2xl mb-1">⛅</div>
+                <div class="text-[11px] font-medium">Okay</div>
+              </div>
+              <div class="mood-pill" data-mood="Good" data-emoji="🌤️">
+                <div class="text-2xl mb-1">🌤️</div>
+                <div class="text-[11px] font-medium">Good</div>
+              </div>
+              <div class="mood-pill" data-mood="Great" data-emoji="☀️">
+                <div class="text-2xl mb-1">☀️</div>
+                <div class="text-[11px] font-medium">Great</div>
+              </div>
+            </div>
+            <div class="flex justify-end mt-8">
+              <button class="btn-primary" id="ci-next-1" disabled style="opacity:.4;">Continue <i
+                  data-lucide="arrow-right" class="w-3.5 h-3.5"></i></button>
+            </div>
+          </div>
+
+          <div id="ci-step-2" class="hidden">
+            <div class="text-xs font-medium mb-4" style="color:var(--ink-soft);">Step 2 of 4</div>
+            <h3 class="serif text-xl mb-5">What's affecting your mood?</h3>
+            <div class="flex flex-wrap gap-2.5" id="influence-options">
+              <div class="chip" data-val="School / Work">School / Work</div>
+              <div class="chip" data-val="Family">Family</div>
+              <div class="chip" data-val="Friends">Friends</div>
+              <div class="chip" data-val="Relationships">Relationships</div>
+              <div class="chip" data-val="Sleep">Sleep</div>
+              <div class="chip" data-val="Stress">Stress</div>
+              <div class="chip" data-val="Motivation">Motivation</div>
+              <div class="chip" data-val="Personal">Personal</div>
+              <div class="chip" data-val="Other">Other</div>
+            </div>
+            <div class="flex justify-between mt-8">
+              <button class="btn-ghost" data-back="1">← Back</button>
+              <button class="btn-primary" id="ci-next-2">Continue <i data-lucide="arrow-right"
+                  class="w-3.5 h-3.5"></i></button>
+            </div>
+          </div>
+
+          <div id="ci-step-3" class="hidden">
+            <div class="text-xs font-medium mb-4" style="color:var(--ink-soft);">Step 3 of 4</div>
+            <h3 class="serif text-xl mb-6">Energy Level</h3>
+            <input type="range" min="0" max="100" value="50" class="w-full" id="energy-slider">
+            <div class="flex justify-between text-xs mt-3" style="color:var(--ink-soft);">
+              <span>Low</span>
+              <span class="serif text-2xl" style="color:var(--forest);" id="energy-value">50</span>
+              <span>High</span>
+            </div>
+            <div class="flex justify-between mt-10">
+              <button class="btn-ghost" data-back="2">← Back</button>
+              <button class="btn-primary" id="ci-next-3">Continue <i data-lucide="arrow-right"
+                  class="w-3.5 h-3.5"></i></button>
+            </div>
+          </div>
+
+          <div id="ci-step-4" class="hidden">
+            <div class="text-xs font-medium mb-4" style="color:var(--ink-soft);">Step 4 of 4</div>
+            <h3 class="serif text-xl mb-5">What do you need today?</h3>
+            <div class="flex flex-wrap gap-2.5" id="need-options">
+              <div class="chip" data-val="Rest">🛌 Rest</div>
+              <div class="chip" data-val="Talk">💬 Talk</div>
+              <div class="chip" data-val="Focus">🎯 Focus</div>
+              <div class="chip" data-val="Motivation">🔥 Motivation</div>
+              <div class="chip" data-val="Quiet time">🌿 Quiet time</div>
+              <div class="chip" data-val="Fun">🎈 Fun</div>
+              <div class="chip" data-val="Support">🤝 Support</div>
+            </div>
+            <div class="flex justify-between mt-8">
+              <button class="btn-ghost" data-back="3">← Back</button>
+              <button class="btn-primary" id="ci-submit">Complete Check-In <i data-lucide="check"
+                  class="w-3.5 h-3.5"></i></button>
+            </div>
+          </div>
+
+          <div id="ci-result" class="hidden text-center py-6">
+            <div class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-5"
+              style="background:var(--sage-pale);">
+              <i data-lucide="sparkles" class="w-6 h-6" style="color:var(--forest);"></i>
+            </div>
+            <h3 class="serif text-2xl mb-3">Thank you for checking in.</h3>
+            <p class="text-sm max-w-sm mx-auto leading-relaxed" style="color:var(--ink-soft);" id="ci-message">Taking a
+              moment to notice how you feel is already a meaningful step.</p>
+            <div class="flex flex-wrap justify-center gap-3 mt-8">
+              <button class="btn-secondary" id="ci-restart">Check In Again</button>
+              <a href="#journal" class="btn-primary">Reflect in Journal <i data-lucide="arrow-right"
+                  class="w-3.5 h-3.5"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="max-w-7xl mx-auto px-5 md:px-8">
+      <div class="divider"></div>
+    </div>
+
+    <section id="mindguide" class="max-w-7xl mx-auto px-5 md:px-8 py-24 md:py-32">
+      <div class="grid lg:grid-cols-[0.8fr_1.2fr] gap-14 items-start">
+        <div class="fade-up lg:sticky lg:top-28">
+          <div class="eyebrow mb-3">REFLECTION ASSISTANT</div>
+          <h2 class="serif text-3xl md:text-[2.5rem] leading-tight">Meet <span class="serif-italic">MindGuide.</span>
+          </h2>
+          <p class="mt-4 text-sm leading-relaxed" style="color:var(--ink-soft);">MindGuide isn't a doctor or a
+            therapist.
+            It's here to help you slow down, put words to what you're feeling, and find a gentle next step.</p>
+          <div class="mt-6 p-4 rounded-2xl text-xs leading-relaxed flex gap-3" style="background:var(--sage-pale);">
+            <i data-lucide="info" class="w-4 h-4 shrink-0 mt-0.5" style="color:var(--forest);"></i>
+            <span>If you're in crisis or in danger, MindGuide will point you to real support — see the <a
+                href="#resources" class="underline">Support Center</a>.</span>
+          </div>
+        </div>
+
+        <div class="card p-5 md:p-7 flex flex-col" style="height:560px;">
+          <div id="mg-messages" class="flex-1 overflow-y-auto scrollbar-none flex flex-col gap-4 pr-1"></div>
+          <div class="flex flex-wrap gap-2 mt-4 mb-3" id="mg-quick">
+            <div class="chip !text-xs" data-q="I feel overwhelmed">I feel overwhelmed</div>
+            <div class="chip !text-xs" data-q="I can't focus">I can't focus</div>
+            <div class="chip !text-xs" data-q="I feel lonely">I feel lonely</div>
+            <div class="chip !text-xs" data-q="I had a difficult day">I had a difficult day</div>
+            <div class="chip !text-xs" data-q="Help me reflect">Help me reflect</div>
+          </div>
+          <div class="flex gap-2">
+            <input type="text" id="mg-input" placeholder="Tell MindGuide what you're feeling…" />
+            <button id="mg-send" class="btn-primary !px-4"><i data-lucide="send" class="w-4 h-4"></i></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <div class="page" data-page="journal">
+
+    <section id="journal" class="max-w-7xl mx-auto px-5 md:px-8 py-24 md:py-32">
+      <div class="fade-up mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-5">
+        <div>
+          <div class="eyebrow mb-3">JOURNAL</div>
+          <h2 class="serif text-3xl md:text-[2.5rem] leading-tight">A Private Place <span class="serif-italic">To
+              Write</span></h2>
+          <p class="mt-3 text-sm max-w-md" style="color:var(--ink-soft);">Your entries are stored only on this device.
+          </p>
+        </div>
+        <button class="btn-primary" id="new-entry-btn">New Journal Entry <i data-lucide="plus"
+            class="w-3.5 h-3.5"></i></button>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3 mb-8 fade-up">
+        <div class="relative flex-1">
+          <i data-lucide="search" class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2"
+            style="color:var(--ink-soft);"></i>
+          <input type="text" id="journal-search" placeholder="Search your entries…" class="!pl-10" />
+        </div>
+        <select id="journal-filter" class="!bg-[var(--card)] border rounded-[.9rem] px-4 text-sm"
+          style="border-color:var(--line);">
+          <option value="all">All moods</option>
+          <option value="Very Low">Very Low</option>
+          <option value="Low">Low</option>
+          <option value="Okay">Okay</option>
+          <option value="Good">Good</option>
+          <option value="Great">Great</option>
+        </select>
+      </div>
+
+      <div id="journal-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+      <p id="journal-empty" class="hidden text-sm text-center py-10" style="color:var(--ink-soft);">No entries yet. Your
+        first reflection is one click away.</p>
+    </section>
+
+    <div id="journal-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4"
+      style="background:rgba(21,43,33,.55); backdrop-filter:blur(6px);">
+      <div class="card w-full max-w-xl p-6 md:p-8 max-h-[90vh] overflow-y-auto scrollbar-none">
+        <div class="flex items-center justify-between mb-5">
+          <h3 class="serif text-2xl">New Entry</h3>
+          <button id="journal-close" class="w-8 h-8 rounded-full flex items-center justify-center border"
+            style="border-color:var(--line);"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </div>
+
+        <div class="mb-5">
+          <div class="text-xs font-medium mb-2.5" style="color:var(--ink-soft);">How do you feel while writing this?
+          </div>
+          <div class="flex gap-2" id="journal-mood-select">
+            <div class="chip" data-val="Very Low">🌧️ Very Low</div>
+            <div class="chip" data-val="Low">🌥️ Low</div>
+            <div class="chip" data-val="Okay">⛅ Okay</div>
+            <div class="chip" data-val="Good">🌤️ Good</div>
+            <div class="chip" data-val="Great">☀️ Great</div>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <div class="text-xs font-medium mb-2" style="color:var(--ink-soft);">Prompt (optional)</div>
+          <select id="journal-prompt" class="!bg-[var(--card)] border rounded-[.9rem] px-4 py-2.5 text-sm w-full"
+            style="border-color:var(--line);">
+            <option value="">Write freely…</option>
+            <option>What has been on your mind lately?</option>
+            <option>What is something you wish someone understood about you?</option>
+            <option>What made today a little better?</option>
+            <option>What are you grateful for today?</option>
+            <option>What would you tell your future self?</option>
+          </select>
+        </div>
+
+        <input type="text" id="journal-title" placeholder="Give this entry a title…" class="mb-3" />
+        <textarea id="journal-content" rows="6" placeholder="Start writing…"></textarea>
+        <input type="text" id="journal-tags" placeholder="Tags, separated by commas (e.g. school, sleep)"
+          class="mt-3" />
+
+        <div class="flex justify-end gap-3 mt-6">
+          <button class="btn-secondary" id="journal-cancel">Cancel</button>
+          <button class="btn-primary" id="journal-save">Save Entry <i data-lucide="check"
+              class="w-3.5 h-3.5"></i></button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="page" data-page="mood">
+
+    <section id="mood" class="max-w-7xl mx-auto px-5 md:px-8 py-24 md:py-32">
+      <div class="fade-up mb-12 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+        <div>
+          <div class="eyebrow mb-3">MOOD TRACKER</div>
+          <h2 class="serif text-3xl md:text-[2.5rem] leading-tight">Your Mood <span class="serif-italic">Journey</span>
+          </h2>
+        </div>
+        <div class="flex gap-2">
+          <div class="tab-btn active" data-range="week">Your Week</div>
+          <div class="tab-btn" data-range="month">Your Month</div>
+        </div>
+      </div>
+
+      <div class="grid lg:grid-cols-[1.4fr_1fr] gap-6">
+        <div class="card p-6 md:p-8 fade-up">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="serif text-lg" id="chart-title">This Week's Mood</h3>
+            <div class="flex items-center gap-4 text-[11px]" style="color:var(--ink-soft);">
+              <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full inline-block"
+                  style="background:var(--forest);"></span>Mood</span>
+              <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full inline-block"
+                  style="background:var(--clay);"></span>Energy</span>
+            </div>
+          </div>
+          <svg id="mood-chart" viewBox="0 0 620 220" class="w-full h-[220px]"></svg>
+          <div class="flex justify-between mt-2 text-[11px]" style="color:var(--ink-soft);" id="chart-labels"></div>
+        </div>
+
+        <div class="flex flex-col gap-6">
+          <div class="grid grid-cols-2 gap-4">
+            <div class="card p-5 fade-up">
+              <div class="eyebrow mb-2" style="font-size:.62rem;">AVERAGE MOOD</div>
+              <div class="serif text-2xl" id="stat-avg-mood">Good</div>
+            </div>
+            <div class="card p-5 fade-up">
+              <div class="eyebrow mb-2" style="font-size:.62rem;">CHECK-IN STREAK</div>
+              <div class="serif text-2xl" id="stat-streak">4 days</div>
+            </div>
+            <div class="card p-5 fade-up">
+              <div class="eyebrow mb-2" style="font-size:.62rem;">ENERGY TREND</div>
+              <div class="serif text-2xl" id="stat-energy">Rising</div>
+            </div>
+            <div class="card p-5 fade-up">
+              <div class="eyebrow mb-2" style="font-size:.62rem;">COMMON FEELING</div>
+              <div class="serif text-2xl" id="stat-common">Calm</div>
+            </div>
+          </div>
+          <div class="card p-6 fade-up"
+            style="background:var(--forest); color:var(--ivory); border-color:var(--forest);">
+            <div class="flex items-start gap-3">
+              <i data-lucide="lightbulb" class="w-4 h-4 mt-1 shrink-0"></i>
+              <p class="text-sm leading-relaxed" id="mood-insight">You seemed to feel more energized on days when you
+                recorded enough sleep.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="page" data-page="habits">
+
+    <section id="habits" class="max-w-7xl mx-auto px-5 md:px-8 py-24 md:py-32">
+      <div class="fade-up mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-5">
+        <div>
+          <div class="eyebrow mb-3">DAILY CARE</div>
+          <h2 class="serif text-3xl md:text-[2.5rem] leading-tight">Small Habits, <span class="serif-italic">Steady
+              Care</span></h2>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="relative w-16 h-16">
+            <svg viewBox="0 0 64 64" class="w-16 h-16 -rotate-90">
+              <circle cx="32" cy="32" r="27" fill="none" stroke="var(--sage-pale)" stroke-width="6" />
+              <circle id="habit-ring" cx="32" cy="32" r="27" fill="none" stroke="var(--forest)" stroke-width="6"
+                stroke-linecap="round" stroke-dasharray="169.6" stroke-dashoffset="169.6" />
+            </svg>
+            <div class="absolute inset-0 flex items-center justify-center serif text-xs" id="habit-ring-label">0/6</div>
+          </div>
+          <div class="text-sm" id="habit-progress-text" style="color:var(--ink-soft);">0 / 6 habits completed</div>
+        </div>
+      </div>
+
+      <div id="habit-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+
+      <div class="mt-8 flex flex-col sm:flex-row gap-3 fade-up">
+        <input type="text" id="habit-new-input" placeholder="Add a custom habit (e.g. Stretch, Read)…" class="flex-1" />
+        <button id="habit-add-btn" class="btn-secondary">Add Habit <i data-lucide="plus"
+            class="w-3.5 h-3.5"></i></button>
+      </div>
+    </section>
+
+    <div class="max-w-7xl mx-auto px-5 md:px-8">
+      <div class="divider"></div>
+    </div>
+
+    <section id="breathe" class="max-w-7xl mx-auto px-5 md:px-8 py-24 md:py-32">
+      <div class="fade-up text-center max-w-xl mx-auto mb-12">
+        <div class="eyebrow mb-3">CALMING TOOL</div>
+        <h2 class="serif text-3xl md:text-[2.5rem] leading-tight">Take a <span class="serif-italic">Moment.</span></h2>
+        <p class="mt-3 text-sm" style="color:var(--ink-soft);">A short guided breathing exercise to help you settle.</p>
+      </div>
+
+      <div class="card p-8 md:p-14 flex flex-col items-center fade-up">
+        <div class="flex gap-2 mb-10" id="breath-duration">
+          <div class="tab-btn active" data-min="1">1 minute</div>
+          <div class="tab-btn" data-min="3">3 minutes</div>
+          <div class="tab-btn" data-min="5">5 minutes</div>
+        </div>
+
+        <div class="relative w-56 h-56 md:w-72 md:h-72 flex items-center justify-center mb-10">
+          <div class="absolute inset-0 rounded-full" style="background:var(--sage-pale);"></div>
+          <div id="breath-circle" class="breath-circle absolute rounded-full flex items-center justify-center"
+            style="width:55%; height:55%; background:var(--forest);">
+            <span id="breath-text" class="text-white serif text-lg">Ready?</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <button id="breath-toggle" class="btn-primary !px-8">Begin <i data-lucide="play"
+              class="w-3.5 h-3.5"></i></button>
+          <button id="breath-sound" class="w-11 h-11 rounded-full border flex items-center justify-center"
+            style="border-color:var(--line);" aria-label="Toggle ambient sound">
+            <i data-lucide="volume-2" class="w-4 h-4"></i>
+          </button>
+        </div>
+        <div class="text-xs mt-5" style="color:var(--ink-soft);" id="breath-timer"></div>
+      </div>
+    </section>
+
+  </div>
+  <div class="page" data-page="resources">
+
+    <section id="resources" class="max-w-7xl mx-auto px-5 md:px-8 py-24 md:py-32">
+      <div class="fade-up mb-10">
+        <div class="eyebrow mb-3">RESOURCE LIBRARY</div>
+        <h2 class="serif text-3xl md:text-[2.5rem] leading-tight">Tools For Your <span class="serif-italic">Mind</span>
+        </h2>
+        <p class="mt-3 text-sm max-w-lg" style="color:var(--ink-soft);">General wellness reading — not diagnosis, not a
+          substitute for professional care.</p>
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-3 mb-8 fade-up">
+        <div class="relative flex-1">
+          <i data-lucide="search" class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2"
+            style="color:var(--ink-soft);"></i>
+          <input type="text" id="resource-search" placeholder="Search resources…" class="!pl-10" />
+        </div>
+        <div class="flex flex-wrap gap-2" id="resource-filters">
+          <div class="chip selected" data-cat="All">All</div>
+          <div class="chip" data-cat="Stress">Stress</div>
+          <div class="chip" data-cat="Anxiety & Worry">Anxiety & Worry</div>
+          <div class="chip" data-cat="Sleep">Sleep</div>
+          <div class="chip" data-cat="Focus">Focus</div>
+          <div class="chip" data-cat="Confidence">Confidence</div>
+          <div class="chip" data-cat="Relationships">Relationships</div>
+          <div class="chip" data-cat="School Stress">School Stress</div>
+          <div class="chip" data-cat="Emotional Regulation">Emotional Regulation</div>
+        </div>
+      </div>
+
+      <div id="resource-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    </section>
+
+    <div class="max-w-7xl mx-auto px-5 md:px-8">
+      <div class="divider"></div>
+    </div>
+
+    <section id="support" class="max-w-7xl mx-auto px-5 md:px-8 py-24 md:py-32">
+      <div class="fade-up text-center max-w-2xl mx-auto mb-14">
+        <div class="eyebrow mb-3">SUPPORT CENTER</div>
+        <h2 class="serif text-3xl md:text-[2.5rem] leading-tight">You Don't Have To Handle <span
+            class="serif-italic">Everything Alone.</span></h2>
+        <p class="mt-3 text-sm" style="color:var(--ink-soft);">MindSpace is a place to reflect — real support comes from
+          real people. Here are places to start.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
+        <div class="card card-lift p-6 text-center fade-up">
+          <i data-lucide="users" class="w-5 h-5 mx-auto mb-3" style="color:var(--forest);"></i>
+          <div class="font-medium text-sm mb-1">Someone You Trust</div>
+          <p class="text-xs" style="color:var(--ink-soft);">A friend, family member, or mentor you feel safe with.</p>
+        </div>
+        <div class="card card-lift p-6 text-center fade-up">
+          <i data-lucide="graduation-cap" class="w-5 h-5 mx-auto mb-3" style="color:var(--forest);"></i>
+          <div class="font-medium text-sm mb-1">School Counselor</div>
+          <p class="text-xs" style="color:var(--ink-soft);">Trained to help and connect you to further support.</p>
+        </div>
+        <div class="card card-lift p-6 text-center fade-up">
+          <i data-lucide="home" class="w-5 h-5 mx-auto mb-3" style="color:var(--forest);"></i>
+          <div class="font-medium text-sm mb-1">Parent / Guardian</div>
+          <p class="text-xs" style="color:var(--ink-soft);">Someone at home who can help you take the next step.</p>
+        </div>
+        <div class="card card-lift p-6 text-center fade-up">
+          <i data-lucide="stethoscope" class="w-5 h-5 mx-auto mb-3" style="color:var(--forest);"></i>
+          <div class="font-medium text-sm mb-1">A Professional</div>
+          <p class="text-xs" style="color:var(--ink-soft);">Therapists and counselors are trained for exactly this.</p>
+        </div>
+      </div>
+
+      <div class="card p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-5"
+        style="background:var(--forest); border-color:var(--forest);">
+        <div class="flex items-center gap-4">
+          <i data-lucide="alert-circle" class="w-6 h-6 shrink-0" style="color:var(--ivory);"></i>
+          <p class="text-sm" style="color:var(--ivory);">If you or someone you know is in immediate danger, please
+            contact
+            local emergency services right away.</p>
+        </div>
+        <button class="btn-primary shrink-0" style="background:var(--ivory); color:var(--forest);"
+          id="find-support-btn">Find Support <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></button>
+      </div>
+      <p class="text-[11px] mt-4" style="color:var(--ink-soft);">In a future version, this section can connect to
+        official
+        regional helplines based on your country.</p>
+    </section>
+
+  </div>
+  <div class="page" data-page="community">
+
+    <section id="community" class="max-w-7xl mx-auto px-5 md:px-8 py-24 md:py-32">
+      <div class="grid lg:grid-cols-[0.85fr_1.15fr] gap-10 items-center">
+        <div class="fade-up">
+          <div class="eyebrow mb-3">TESTIMONIALS</div>
+          <h2 class="serif text-3xl md:text-[2.5rem] leading-tight">Reflections From Our <span
+              class="serif-italic">Community</span></h2>
+          <p class="mt-4 text-sm leading-relaxed max-w-sm" style="color:var(--ink-soft);">Anonymous, shared reflections
+            from people making space for their minds.</p>
+          <div class="mt-8">
+            <div class="serif text-4xl" style="color:var(--forest);">50K+</div>
+            <div class="text-xs mt-1" style="color:var(--ink-soft);">Demo reflections shared *</div>
+          </div>
+        </div>
+
+        <div class="relative">
+          <div id="testimonial-track" class="flex gap-5 overflow-x-auto scrollbar-none pb-2"
+            style="scroll-snap-type:x mandatory;"></div>
+          <div class="flex justify-end gap-2 mt-4">
+            <button id="testi-prev" class="w-10 h-10 rounded-full border flex items-center justify-center"
+              style="border-color:var(--line);"><i data-lucide="arrow-left" class="w-4 h-4"></i></button>
+            <button id="testi-next" class="w-10 h-10 rounded-full border flex items-center justify-center"
+              style="border-color:var(--line);"><i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+          </div>
+        </div>
+      </div>
+      <p class="text-[11px] mt-6" style="color:var(--ink-soft);">*Demo/placeholder content — MindSpace does not yet have
+        a
+        live community database.</p>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-5 md:px-8 pb-24 md:pb-32">
+      <div class="relative rounded-[2rem] overflow-hidden fade-up">
+        <img src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?q=80&w=1800&auto=format&fit=crop"
+          alt="Calm mountain landscape at dusk" class="absolute inset-0 w-full h-full object-cover" />
+        <div class="absolute inset-0"
+          style="background:linear-gradient(120deg, rgba(15,28,22,.88) 20%, rgba(15,28,22,.35) 100%);"></div>
+        <div class="relative z-10 grid lg:grid-cols-2 gap-10 p-8 md:p-14">
+          <div class="text-white">
+            <div class="eyebrow mb-3" style="color:var(--sage-pale);">STAY GROUNDED</div>
+            <h2 class="serif text-3xl md:text-4xl leading-tight">Come Back To <span
+                class="serif-italic">Yourself.</span>
+            </h2>
+            <p class="text-white/80 text-sm mt-4 max-w-sm leading-relaxed">Get gentle reminders, reflection prompts, and
+              wellness notes — only if you want them.</p>
+            <div class="mt-10 space-y-3 text-sm text-white/85">
+              <div class="flex items-center gap-3"><i data-lucide="map-pin" class="w-4 h-4"></i> A private space,
+                wherever
+                you are</div>
+              <div class="flex items-center gap-3"><i data-lucide="lock" class="w-4 h-4"></i> Your reflections stay
+                yours
+              </div>
+            </div>
+          </div>
+          <form id="contact-form" class="card p-6 md:p-7" style="background:rgba(252,250,243,.97);">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-[11px] font-medium" style="color:var(--ink-soft);">First Name</label>
+                <input type="text" placeholder="Your first name" required />
+              </div>
+              <div>
+                <label class="text-[11px] font-medium" style="color:var(--ink-soft);">Last Name</label>
+                <input type="text" placeholder="Your last name" />
+              </div>
+            </div>
+            <div class="mt-3">
+              <label class="text-[11px] font-medium" style="color:var(--ink-soft);">Email Address</label>
+              <input type="email" placeholder="you@email.com" required />
+            </div>
+            <div class="mt-3">
+              <label class="text-[11px] font-medium" style="color:var(--ink-soft);">What would you like to
+                share?</label>
+              <textarea rows="3" placeholder="Your message…"></textarea>
+            </div>
+            <button type="submit" class="btn-primary w-full justify-center mt-5">Submit <i data-lucide="arrow-right"
+                class="w-3.5 h-3.5"></i></button>
+            <p id="contact-confirm" class="hidden text-xs mt-3 text-center" style="color:var(--forest);">Thank you —
+              this
+              is a demo form, no data was sent.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="border-t" style="border-color:var(--line);">
+    <div class="max-w-7xl mx-auto px-5 md:px-8 py-16 grid md:grid-cols-[1.3fr_1fr_1fr_1fr] gap-10">
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-7 h-7 rounded-full flex items-center justify-center" style="background:var(--forest);">
+            <i data-lucide="leaf" class="w-3.5 h-3.5" style="color:var(--ivory);"></i>
+          </div>
+          <span class="serif text-base">MS <span class="serif-italic">MindSpace</span></span>
+        </div>
+        <p class="text-sm serif-italic" style="color:var(--ink-soft);">Make space for your mind.</p>
+      </div>
+      <div>
+        <div class="text-xs font-semibold mb-3 tracking-wide">EXPLORE</div>
+        <div class="flex flex-col gap-2 text-sm" style="color:var(--ink-soft);">
+          <a href="#home" class="hover:opacity-70">Home</a>
+          <a href="#resources" class="hover:opacity-70">Resources</a>
+          <a href="#community" class="hover:opacity-70">Community</a>
+        </div>
+      </div>
+      <div>
+        <div class="text-xs font-semibold mb-3 tracking-wide">LEGAL</div>
+        <div class="flex flex-col gap-2 text-sm" style="color:var(--ink-soft);">
+          <a href="#" class="hover:opacity-70">Privacy</a>
+          <a href="#" class="hover:opacity-70">Terms</a>
+        </div>
+      </div>
+      <div>
+        <div class="text-xs font-semibold mb-3 tracking-wide">YOUR SPACE</div>
+        <div class="flex flex-col gap-2 text-sm" style="color:var(--ink-soft);">
+          <a href="#" class="hover:opacity-70" id="export-data-link">Export My Data</a>
+          <a href="#" class="hover:opacity-70" id="delete-data-link">Delete My Data</a>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-5 md:px-8 pb-8">
+      <div class="divider mb-6"></div>
+      <p class="text-[11px] leading-relaxed max-w-2xl" style="color:var(--ink-soft);">MindSpace is a wellness and
+        reflection tool. It does not provide medical diagnosis or replace professional mental health care. If you are in
+        crisis, please contact local emergency services or a trusted professional.</p>
+      <p class="text-[11px] mt-4" style="color:var(--ink-soft);">© 2026 MindSpace. Prototype build.</p>
+    </div>
+  </footer>
+  <script src="js/store.js"></script>
+  <script src="js/utils.js"></script>
+
+  <script src="js/components/navbar.js"></script>
+  <script src="js/components/onboarding.js"></script>
+  <script src="js/components/moodTracker.js"></script>
+  <script src="js/components/checkin.js"></script>
+  <script src="js/components/journal.js"></script>
+  <script src="js/components/mindguide.js"></script>
+  <script src="js/components/habitTracker.js"></script>
+  <script src="js/components/breathingExercise.js"></script>
+  <script src="js/components/resourceLibrary.js"></script>
+  <script src="js/components/supportCenter.js"></script>
+  <script src="js/components/community.js"></script>
+  <script src="js/components/contactForm.js"></script>
+  <script src="js/components/privacySettings.js"></script>
+
+  <script src="js/router.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>
