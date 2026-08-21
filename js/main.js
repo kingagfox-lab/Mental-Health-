@@ -1,3 +1,0 @@
-
-lucide.createIcons();
-initScrollReveal();
