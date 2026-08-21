@@ -59,8 +59,8 @@
   `;
     const isId = window.i18n && window.i18n.getLanguage() === 'id';
     $('#chart-title').textContent = currentRange === 'week'
-      ? (isId ? "Suasana Hati Minggu Ini" : "This Week's Mood")
-      : (isId ? "Suasana Hati Bulan Ini" : "This Month's Mood");
+      ? (isId ?  "This Week's Mood")
+      : (isId ? "This Month's Mood");
 
     const dayStr = isId ? 'Hari' : 'Day';
     $('#chart-labels').innerHTML = (currentRange === 'week' ? data.map(d => `<span>${d.label}</span>`).join('') : `<span>${dayStr} 1</span><span>${dayStr} 15</span><span>${dayStr} 30</span>`);
