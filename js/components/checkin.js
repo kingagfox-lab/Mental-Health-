@@ -41,14 +41,6 @@
       "Naming what's affecting you takes honesty. Be gentle with yourself for the rest of today.",
       "You don't need to have it all figured out. Noticing is enough for now.",
       "Small check-ins like this one add up to real self-understanding over time."
-    ],
-    id: [
-      "Terima kasih telah menyapa diri sendiri. Luangkan waktu sejenak untuk menyadari perasaan Anda adalah langkah yang sangat bermakna.",
-      "Bagaimanapun perasaan Anda hari ini, Anda telah hadir untuk diri sendiri — itu sangat berarti.",
-      "Menamai apa yang memengaruhi Anda butuh kejujuran. Bersikaplah lembut pada diri sendiri hari ini.",
-      "Anda tidak harus paham semuanya sekarang. Menyadari saja sudah cukup untuk saat ini.",
-      "Presensi harian kecil seperti ini akan membentuk pemahaman diri yang mendalam dari waktu ke waktu."
-    ]
   };
 
   $('#ci-submit').addEventListener('click', () => {
