@@ -7,14 +7,6 @@
       { text: "Writing every night has helped me understand what I actually feel instead of just reacting.", name: "Anonymous" },
       { text: "The breathing exercise talked me down during a genuinely hard week.", name: "Anonymous" },
       { text: "I like that nothing here tells me what's 'wrong' with me — it just helps me notice.", name: "Anonymous" }
-    ],
-    id: [
-      { text: "Hari ini akhirnya saya memberi izin pada diri sendiri untuk melambat.", name: "Anonim" },
-      { text: "Saya menghargai pengingat lembut untuk bersikap baik pada diri sendiri saat membangun kebiasaan sehat.", name: "Anonim" },
-      { text: "Menulis setiap malam membantu saya memahami apa yang sebenarnya saya rasakan daripada sekadar bereaksi.", name: "Anonim" },
-      { text: "Latihan pernapasan membantu menenangkan pikiran saya selama minggu yang sangat berat.", name: "Anonim" },
-      { text: "Saya suka karena tidak ada yang menghakimi di sini — ini hanya membantu saya menyadari perasaan.", name: "Anonim" }
-    ]
   };
   function renderTestimonials() {
     const track = $('#testimonial-track');
